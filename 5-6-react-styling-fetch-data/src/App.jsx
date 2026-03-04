@@ -204,8 +204,33 @@ export default function App() {
      ========================================================= */
   useEffect(() => {
     // TODO 2.1: Implement fetching users here (see lab instructions)
-  }, []);
+    const fetchUsers = async () => {
+   try {
+   setLoading(true);
+   const response = await fetch('https://jsonplaceholder.typicode.com/users');
+   const data = await response.json();
+   setUsers(data);
+   } catch (err) { setError(err.message);}
+   finally { setLoading(false); }
+   };
+   fetchUsers();
+   }, []);
 
+   /*TODO 2.2: File: src/App.jsx
+Implement the filtering logic inside the second useEffect.
+
+Requirements:
+1) If searchTerm is empty:
+   setFilteredUsers(users)
+2) Else:
+   - filter users by name ONLY
+   - case-insensitive match using includes()
+   - then setFilteredUsers(filtered)
+   Hint:
+      - Always compute from the full users array, not from filteredUsers (prevents “double filtering” bugs).
+      - Make sure .toLowerCase() is applied to both user.name and searchTerm.
+Dependency array MUST be:
+   [searchTerm, users]*/
   /* =========================================================
      TODO 2.2 — FILTER USERS BY NAME
      File: src/App.jsx
@@ -215,6 +240,13 @@ export default function App() {
      ========================================================= */
   useEffect(() => {
     // TODO 2.2: Implement filtering users here (see lab instructions)
+    if(searchTerm.length===0){
+      return(setFilteredUsers(users))
+    }else{
+      searchTerm.filteredUsers()
+      users.includes(searchTerm.toLocaleLowerCase())
+      setFilteredUsers(filtered)
+    }
   }, [searchTerm, users]);
 
   // Modal handlers (already complete)
