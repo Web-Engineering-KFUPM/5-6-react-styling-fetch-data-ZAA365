@@ -240,11 +240,12 @@ Dependency array MUST be:
      ========================================================= */
   useEffect(() => {
     // TODO 2.2: Implement filtering users here (see lab instructions)
-    if(searchTerm.length===0){
-      return(setFilteredUsers(users))
+    if(searchTerm.trim()===""){
+      setFilteredUsers(users)
     }else{
-      searchTerm.filteredUsers()
-      users.includes(searchTerm.toLocaleLowerCase())
+      const filtered = users.filter(user => 
+        user.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
       setFilteredUsers(filtered)
     }
   }, [searchTerm, users]);
