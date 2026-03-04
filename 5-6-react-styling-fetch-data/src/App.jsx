@@ -205,16 +205,25 @@ export default function App() {
   useEffect(() => {
     // TODO 2.1: Implement fetching users here (see lab instructions)
     const fetchUsers = async () => {
-   try {
-   setLoading(true);
-   const response = await fetch('https://jsonplaceholder.typicode.com/users');
-   const data = await response.json();
-   setUsers(data);
-   } catch (err) { setError(err.message);}
-   finally { setLoading(false); }
-   };
-   fetchUsers();
-   }, []);
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await fetch("https://jsonplaceholder.typicode.com/users");
+        if (!response.ok) {
+          throw new Error(`Network error: ${response.status}`);
+        }
+        const data = await response.json();
+        setUsers(data);
+        setFilteredUsers(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
    /*TODO 2.2: File: src/App.jsx
 Implement the filtering logic inside the second useEffect.
